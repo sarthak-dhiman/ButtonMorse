@@ -11,7 +11,7 @@ lcd_rows = 4
 # Initialize I2C bus
 i2c = busio.I2C(board.GP14, board.GP15)  # Change GP0 and GP1 to your SDA and SCL pins
 
-# Initialize LCD class
+# Initialize L~CD class
 lcd = character_lcd.Character_LCD_I2C(i2c, lcd_columns, lcd_rows)
 
 # Clear the LCD screen
