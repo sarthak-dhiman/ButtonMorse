@@ -9,7 +9,7 @@ import character_lcd
 lcd_columns = 20
 lcd_rows = 4
 # Initialize I2C bus
-i2c = busio.I2C(board.GP0, board.GP1)  # Change GP0 and GP1 to your SDA and SCL pins
+i2c = busio.I2C(board.GP14, board.GP15)  # Change GP0 and GP1 to your SDA and SCL pins
 
 # Initialize LCD class
 lcd = character_lcd.Character_LCD_I2C(i2c, lcd_columns, lcd_rows)
