@@ -3,7 +3,6 @@
 #dated- 1/4/2024 , circuitpython selected as programming language
 import board
 import digitalio
-import time
 import busio
 import character_lcd
 lcd_columns = 20
