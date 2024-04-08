@@ -1,0 +1,28 @@
+@import url('https://fonts.cdnfonts.com/css/sacred-bridge-demo');
+@import url('https://fonts.cdnfonts.com/css/sacramento');
+  h1{
+    text-align: center;
+    font-family: 'Sacred Bridge Demo', sans-serif;
+    font-size: 40px;
+    
+}
+h2{
+    text-align: center;
+    font-family: 'Sacred Bridge Demo', sans-serif;
+}
+.p{
+    text-align: justify;
+    text-rendering: geometricPrecision;
+    font-family: 'sacramento',sans-serif;
+}
+body {
+    text-align: center;
+    border-radius: 40px;
+    text-rendering: geometricPrecision;
+    font-family: 'sacramento',sans-serif;
+    font-size: 25px;
+    font-weight: 800;
+}
+form {
+    display: inline-block;
+}
