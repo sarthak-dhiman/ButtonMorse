@@ -1,4 +1,7 @@
-// Define pin numbers
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);// Define pin numbers
 const int enter = 13 ;
 const int dot = 12;
 const int dash = 11;
@@ -74,6 +77,9 @@ const unsigned long wordSpaceDuration = dotDuration * 15; // Duration of space b
 unsigned long lastPressTime = 0;
 
 void setup() {
+    Wire.begin();
+    lcd.init();                      // Initialize the LCD
+    lcd.backlight();
     // Initialize GPIO pins
     pinMode(enter, INPUT);
     pinMode(dot, INPUT);
@@ -81,6 +87,10 @@ void setup() {
     
     // Initialize serial communication
     Serial.begin(9600);
+    lcd.setCursor(0, 0);
+    lcd.print("ButtonMorse");
+    lcd.setCursor(0, 1);
+    lcd.print("Enter Morse Code:");
 }
 
 void loop() {
@@ -114,11 +124,21 @@ void processInput(char input) {
 
             // Print translated text
             Serial.print(translated_text);
+             // Print translated text on LCD
+            lcd.clear();
+            lcd.setCursor(0, 1);
+            lcd.print("Translated: ");
+            lcd.print(translated_text);
 
             // Check if it's a word space
             if (currentTime - lastPressTime >= wordSpaceDuration) {
                 Serial.print(' '); // Print space between words
+                
+                // Print space between words on LCD
+                lcd.setCursor(0, 0);
+                lcd.print("Enter Morse Code:");
             }
+            
             
             input_value = ""; // Clear input for the next Morse code input
         }
