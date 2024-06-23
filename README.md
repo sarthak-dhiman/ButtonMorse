@@ -72,7 +72,8 @@ equal = (1,0,0,0,1)
 4) Wireless interconnectivity between application and the board
 5) Modes to configure translator to work on a single key or the easier 3 key mode
 
-**Revisions**
+**Revisions**   
+
 ***VER-0.1*** *Released- 23/06/2024*
 --> Implemented basic translation functions for a single charachter output 
 --> Added 126x64 oled support
