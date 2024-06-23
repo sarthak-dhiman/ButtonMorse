@@ -4,7 +4,7 @@ the basic idea is to use two switches , to feed dots and dashes whilst the third
 of a single charachter has been entered and is ready to be decoded or act as a delete key if the user feels like the entered 
 sequence is flawed
 
-the dictionary for input conversion of morse is typed assuming dots as 0 and dashes as 1.
+**the dictionary for input conversion of morse is typed assuming dots as 0 and dashes as 1.**
 a = (0,1)
 b = (1,0,0,0)
 c = (1,0,1,0)
@@ -50,3 +50,33 @@ plus = (0,1,0,1,0)
 minus =(1,0,0,0,1)
 slash = (1,0,0,1,0)
 equal = (1,0,0,0,1)
+
+
+**PREQUISITES for ButtonMorse**
+-->RP2040 driven board with the micropython firmware loaded into it
+-->arduino based boards can also be used but with no HID interface(*HID to be implemented as of yet*) 
+-->I2C based display , preferably an oled due to input voltage and code adjustment ease
+
+**The Instructions to use the translator are as follows(for ver-0.1)**
+1) Power on the microcontroller , ensuring the wiring is as per schematics
+*GP38-GND,GP36-3.3V,GP01-SDA,GP02-SCL,GP17-DOT_SWITCH,GP18-DASH_SWITCH,GP16-ENTER_SWITCH*
+2) Wait until the buttonMorse spash screen is over and the prompt is asked for
+3) For this rev translation can only be done per charachter at a time(*later versions will work to have support for words) so enter the morse code and press the enter
+4) The next screen should display your translated charachter
+5) Press enter to clear screen and get prompt for next input
+
+**Features to be implemented in future revesions**
+1) Input support for a word at a time, instead of charachters
+2) Desktop application verison that can inputs from standard keyboards or the rp2040
+3) Making RP2040 translator dual act as a morsepad(keypad for morse)
+4) Wireless interconnectivity between application and the board
+5) Modes to configure translator to work on a single key or the easier 3 key mode
+
+**Revisions**
+***VER-0.1*** *Released- 23/06/2024*
+--> Implemented basic translation functions for a single charachter output 
+--> Added 126x64 oled support
+--> Basic splash and ui for the newly added oled
+--> Rudamentry input stream using gateron red switches
+
+ 
