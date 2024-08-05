@@ -71,6 +71,7 @@ equal = (1,0,0,0,1)
 3) Making RP2040 translator dual act as a morsepad(keypad for morse)
 4) Wireless interconnectivity between application and the board
 5) Modes to configure translator to work on a single key or the easier 3 key mode
+6) Addition of relays to mimic the clicking and clacking sounds
 
 **Revisions**   
 
