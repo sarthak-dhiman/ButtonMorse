@@ -72,6 +72,7 @@ equal = (1,0,0,0,1)
 4) Wireless interconnectivity between application and the board
 5) Modes to configure translator to work on a single key or the easier 3 key mode
 6) Addition of relays to mimic the clicking and clacking sounds
+7) Animating the button logo to look as if its pressed to start
 
 **Revisions**   
 

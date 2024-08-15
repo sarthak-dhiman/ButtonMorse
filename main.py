@@ -1,6 +1,7 @@
 #the version of the code is 0.2pre
 #This code is for the RP2040 and  OLED display(128x64px)
 #will get revisions until there is no more features mentioned in "readme" left
+from picozero import Button # type: ignore
 from machine import Pin, I2C # type: ignore
 from ssd1306 import SSD1306_I2C # type: ignore
 import time
@@ -17,9 +18,9 @@ enter_message1 = "Enter Text"
 enter_message2 = "To Be Translated"
 version = "ver 0.2pre"
 
-enter = Pin(16, Pin.IN)
-dot = Pin(17, Pin.IN)
-dash = Pin(18, Pin.IN)
+enter = Button(28)
+dot = Button(18)
+dash = Button(22)
 
 morse_icon_x = 0 
 morse_icon_y = HEIGHT - 8 
@@ -116,11 +117,11 @@ def typing_effect_line(line, y, start_time):
         seconds = int(elapsed_time % 60)
         
         if hours > 0:
-            timer_text = "{:02}:{:02}:{:02}".format(hours, minutes, seconds)
+            timer_text = "{:00}:{:00}:{:00}".format(hours, minutes, seconds)
         elif minutes > 0:
-            timer_text = "{:02}:{:02}".format(minutes, seconds)
+            timer_text = "{:00}:{:00}".format(minutes, seconds)
         else:
-            timer_text = "{:02}".format(seconds)
+            timer_text = "{:00}".format(seconds)
         oled.text(timer_text, WIDTH - len(timer_text) * 8, HEIGHT - 10)
         oled.text(version, 0, HEIGHT - 10)
 
@@ -151,11 +152,11 @@ def animate_enter_messages(start_time):
         hours = int(elapsed_time // 3600)
         minutes = int((elapsed_time % 3600) // 60)
         seconds = int(elapsed_time % 60)
-        timer_text = "{:02}".format(seconds)
+        timer_text = "{:00}".format(seconds)
         if minutes > 0:
-            timer_text = "{:02}:{:02}".format(minutes, seconds)
+            timer_text = "{:00}:{:00}".format(minutes, seconds)
         if hours > 0:
-            timer_text = "{:02}:{:02}:{:02}".format(hours, minutes, seconds)
+            timer_text = "{:00}:{:00}:{:00}".format(hours, minutes, seconds)
 
         oled.text(timer_text, WIDTH - len(timer_text) * 8, HEIGHT - 10)
         oled.text(version, 0, HEIGHT - 10)
@@ -171,11 +172,11 @@ def animate_enter_messages(start_time):
         hours = int(elapsed_time // 3600)
         minutes = int((elapsed_time % 3600) // 60)
         seconds = int(elapsed_time % 60)
-        timer_text = "{:02}".format(seconds)
+        timer_text = "{:00}".format(seconds)
         if minutes > 0:
-            timer_text = "{:02}:{:02}".format(minutes, seconds)
+            timer_text = "{:00}:{:00}".format(minutes, seconds)
         if hours > 0:
-            timer_text = "{:02}:{:02}:{:02}".format(hours, minutes, seconds)
+            timer_text = "{:00}:{:00}:{:00}".format(hours, minutes, seconds)
 
         oled.text(timer_text, WIDTH - len(timer_text) * 8, HEIGHT - 10)
         oled.text(version, 0, HEIGHT - 10)
@@ -183,26 +184,52 @@ def animate_enter_messages(start_time):
         time.sleep(0.1)
 
 def display_blinking_cursor(text, start_time):
-    cursor_pos = len(text) * 8
     while True:
         oled.fill(0)
         elapsed_time = time.time() - start_time
         hours = int(elapsed_time // 3600)
         minutes = int((elapsed_time % 3600) // 60)
         seconds = int(elapsed_time % 60)
-        timer_text = "{:02}".format(seconds)
+        timer_text = "{:00}".format(seconds)
         if minutes > 0:
-            timer_text = "{:02}:{:02}".format(minutes, seconds)
+            timer_text = "{:00}:{:00}".format(minutes, seconds)
         if hours > 0:
-            timer_text = "{:02}:{:02}:{:02}".format(hours, minutes, seconds)
+            timer_text = "{:00}:{:00}:{:00}".format(hours, minutes, seconds)
 
         oled.text(timer_text, WIDTH - len(timer_text) * 8, HEIGHT - 10)
         oled.text(version, 0, HEIGHT - 10)
 
         if int(time.time()) % 2 == 0:
-            oled.text("_", (WIDTH - cursor_pos) // 2, HEIGHT // 2 + 16)
+            oled.text("_", 0, 0)
         oled.show()
         time.sleep(0.5)
+
+def translation_block():
+    global input_value 
+    if dot.when_pressed:
+        input_value.append("0")
+        oled.fill(0)
+        oled.text(input_value, 0, 20)
+        oled.show()
+    if dash.when_pressed:
+        input_value.append("1")
+        oled.fill(0)
+        oled.text(input_value, 0, 20)
+        oled.show()
+    if enter.when_pressed:
+         translation()  
+
+def translation():    
+    morse_code = input_value
+    global translated_text
+    oled.fill(0)
+    if morse_code in morse_dict:
+         translated_text = morse_dict[morse_code]
+    else:
+        translated_text = "Invalid Morse Code"
+    oled.text("Input: " + morse_code, 0, 20)
+    oled.show()
+
 
 start_time = time.time()
 input_value = []
@@ -222,20 +249,12 @@ while True:
     
     display_blinking_cursor("", start_time)
     
-    while True:
-        if enter.value() == 0:
-            if dot.value() == 0:
-                input_value.append('0')
-                display_blinking_cursor("".join(input_value), start_time)
-            elif dash.value() == 0:
-                input_value.append('1')
-                display_blinking_cursor("".join(input_value), start_time)
+    if enter.when_pressed:
+        if enter.when_pressed:
+            oled.fill(0)
+            oled.text("Translated:" + translated_text, 0, 20)
+            oled.show()
         else:
-            if input_value:
-                translated_text = morse_dict.get("".join(input_value), "")
-                oled.fill(0)
-                oled.text(translated_text, (WIDTH - len(translated_text) * 8) // 2, HEIGHT // 2)
-                oled.show()
-                time.sleep(1)
-                input_value = []
-                break
+            translation_block()
+        
+    
