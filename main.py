@@ -4,6 +4,7 @@
 from picozero import Button # type: ignore
 from machine import Pin, I2C # type: ignore
 from ssd1306 import SSD1306_I2C # type: ignore
+import machine # type: ignore
 import time
 # OLED display dimensions
 WIDTH = 128 
@@ -16,7 +17,7 @@ message_line1 = "Welcome to"
 message_line2 = "ButtonMorse"
 enter_message1 = "Enter Text"
 enter_message2 = "To Be Translated"
-version = "ver 0.2pre"
+version = "ver 0.2"
 
 enter = Button(28)
 dot = Button(18)
@@ -206,29 +207,37 @@ def display_blinking_cursor(text, start_time):
 
 def translation_block():
     global input_value 
-    if dot.when_pressed:
-        input_value.append("0")
-        oled.fill(0)
-        oled.text(input_value, 0, 20)
-        oled.show()
-    if dash.when_pressed:
-        input_value.append("1")
-        oled.fill(0)
-        oled.text(input_value, 0, 20)
-        oled.show()
-    if enter.when_pressed:
-         translation()  
-
-def translation():    
-    morse_code = input_value
-    global translated_text
-    oled.fill(0)
-    if morse_code in morse_dict:
-         translated_text = morse_dict[morse_code]
-    else:
-        translated_text = "Invalid Morse Code"
-    oled.text("Input: " + morse_code, 0, 20)
-    oled.show()
+    input_value =""
+    translation_complete = False
+    print("Enter Morse Code: ")
+    while not translation_complete:
+        if dot.value == 1:
+          input_value=input_value+'0'
+          print("0")
+          oled.fill(0)
+          oled.text(input_value, 0, 20)
+          oled.show()
+          time.sleep(0.2)
+        if dash.value == 1:
+           input_value=input_value+'1'
+           print('1')
+           oled.fill(0)
+           oled.text(input_value, 0, 20)
+           oled.show()
+           time.sleep(0.2)
+        if enter.value == 1:
+            print('_')
+            
+            if input_value in morse_dict:
+               translated_text = morse_dict[input_value]
+            else:
+               translated_text = "Invalid Morse Code"
+            print("Translated: " + translated_text)   
+            oled.fill(0)
+            oled.text("Translated: " + translated_text, 0, 20)
+            oled.show() 
+            translation_complete = True
+    return translation_complete
 
 
 start_time = time.time()
@@ -243,18 +252,7 @@ while True:
     
     animate_enter_messages(start_time)
     time.sleep(4)
-    
-    oled.fill(0)
-    oled.show()
-    
-    display_blinking_cursor("", start_time)
-    
-    if enter.when_pressed:
-        if enter.when_pressed:
-            oled.fill(0)
-            oled.text("Translated:" + translated_text, 0, 20)
-            oled.show()
-        else:
-            translation_block()
+    while True:
+       translation_block()
         
     

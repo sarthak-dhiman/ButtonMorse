@@ -59,7 +59,7 @@ equal = (1,0,0,0,1)
 
 **The Instructions to use the translator are as follows(for ver-0.1)**
 1) Power on the microcontroller , ensuring the wiring is as per schematics
-*GP38-GND,GP36-3.3V,GP01-SDA,GP02-SCL,GP17-DOT_SWITCH,GP18-DASH_SWITCH,GP16-ENTER_SWITCH*
+*GP38-GND,GP36-3.3V,GP01-SDA,GP02-SCL,GP18-DOT_SWITCH,GP22-DASH_SWITCH,GP28-ENTER_SWITCH*
 2) Wait until the buttonMorse splash screen is over and the prompt is asked for
 3) For this rev translation can only be done per alphabet at a time(*later versions will work to have support for words) so enter the morse code and press the enter
 4) The next screen should display your translated alphabet
@@ -82,4 +82,8 @@ equal = (1,0,0,0,1)
 --> Basic splash and ui for the newly added oled
 --> Rudamentry input stream using gateron red switches
 
- 
+***VER-0.2*** *Released- 16/8/2024*
+-->Added splash screen
+-->Changed and refined the way input is taken
+-->Rebuilt the translation method
+-->Added enough backend to support the animating logo
