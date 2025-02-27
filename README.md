@@ -1,3 +1,7 @@
+ButtonMorse is a non conventional morse decoder based upon microcontrollers , coded on Pyhton or C++ depending upon the
+microcontroller used.
+the standalone windows version provides decoding without use of any support hardware of the original version
+
 Morse is older binary communication method that uses dashes and dots to encode the data.
 the goal of this project is to create a decoder that helps with visual and interactive learning of the learning.
 the basic idea is to use two switches , to feed dots and dashes whilst the third switch can act as enter to denote the sequence 
