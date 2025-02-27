@@ -1,4 +1,4 @@
-ButtonMorse is a non conventional morse decoder based upon microcontrollers , coded with Pyhton or C++ depending upon the
+ButtonMorse is a non conventional morse decoder based upon microcontrollers , coded with Python or C++ depending upon the
 microcontroller used.
 the standalone windows version provides decoding without use of any support hardware of the original version
 
